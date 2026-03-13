@@ -11,7 +11,6 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   pgadmin:
     image: dpage/pgadmin4
@@ -25,19 +24,19 @@ services:
     depends_on:
       - db
 
-  # backend:
-  #   build: ./backend
-  #   container_name: jobboard_backend
-  #   restart: always
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     DB_HOST: db
-  #     DB_USER: jobuser
-  #     DB_PASSWORD: jobpass
-  #     DB_NAME: jobboard
-  #   depends_on:
-  #     - db
+  backend:
+    build: ./backend
+    container_name: jobboard_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_USER: jobuser
+      DB_PASSWORD: jobpass
+      DB_NAME: jobboard
+    depends_on:
+      - db
 
 volumes:
   db_data:
